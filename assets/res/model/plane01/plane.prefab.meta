@@ -2,12 +2,12 @@
   "ver": "1.1.45",
   "importer": "prefab",
   "imported": true,
-  "uuid": "359b9444-0986-4364-bb7a-f92791aaf8e6",
+  "uuid": "e07e35be-f87a-4b4b-b202-97368b78b829",
   "files": [
     ".json"
   ],
   "subMetas": {},
   "userData": {
-    "syncNodeName": "plane01"
+    "syncNodeName": "plane"
   }
 }
