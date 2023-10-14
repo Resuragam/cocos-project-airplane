@@ -11,7 +11,7 @@
   },
   {
     "__type__": "cc.Scene",
-    "_name": "",
+    "_name": "airplane",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": null,
@@ -58,7 +58,7 @@
     },
     "autoReleaseAssets": false,
     "_globals": {
-      "__id__": 14
+      "__id__": 15
     },
     "_id": "b42ab4c3-bc69-4550-9967-8d8bab3ef8b3"
   },
@@ -185,7 +185,7 @@
       "x": -0.7071067811865475,
       "y": 0,
       "z": 0,
-      "w": 0.7071067811865476
+      "w": 0.7071067811865477
     },
     "_lscale": {
       "__type__": "cc.Vec3",
@@ -251,7 +251,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "movingScene",
+    "_name": "movingSceneBg",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -266,7 +266,11 @@
       }
     ],
     "_active": true,
-    "_components": [],
+    "_components": [
+      {
+        "__id__": 14
+      }
+    ],
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -299,7 +303,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "bg01",
+    "_name": "backgroundFront",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -399,7 +403,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "bg02",
+    "_name": "backgroundBack",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -498,27 +502,45 @@
     "_bakeToReflectionProbe": true
   },
   {
+    "__type__": "d4a80sewFhPBr5DWAEaBMlL",
+    "_name": "",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "node": {
+      "__id__": 7
+    },
+    "_enabled": true,
+    "__prefab": null,
+    "backgroundFront": {
+      "__id__": 8
+    },
+    "backgroundBack": {
+      "__id__": 11
+    },
+    "_id": "cfORMpvExKdLoERkUIhz1h"
+  },
+  {
     "__type__": "cc.SceneGlobals",
     "ambient": {
-      "__id__": 15
-    },
-    "shadows": {
       "__id__": 16
     },
-    "_skybox": {
+    "shadows": {
       "__id__": 17
     },
-    "fog": {
+    "_skybox": {
       "__id__": 18
     },
-    "octree": {
+    "fog": {
       "__id__": 19
     },
-    "skin": {
+    "octree": {
       "__id__": 20
     },
-    "lightProbeInfo": {
+    "skin": {
       "__id__": 21
+    },
+    "lightProbeInfo": {
+      "__id__": 22
     },
     "bakedWithStationaryMainLight": false,
     "bakedWithHighpLightmap": false
