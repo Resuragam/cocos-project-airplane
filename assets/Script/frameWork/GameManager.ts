@@ -1,4 +1,4 @@
-import { _decorator, Component, instantiate, Node, Prefab, math } from 'cc';
+import { _decorator, Component, instantiate, Node, Prefab, math, Vec3, BoxCollider, Collider } from 'cc';
 import { Bullet } from '../bullet/Bullet';
 import { Constant } from './Constant';
 import { EnemyPlane } from '../plane/EnemyPlane';
@@ -57,15 +57,40 @@ export class GameManager extends Component {
             this._currShootTime = 0;
         }
 
+        this._currCreateEnemyTime = this._currCreateEnemyTime + deltaTime;
         if (this._combinationInterval === Constant.Combination.PLANE1) {
-            this._currCreateEnemyTime = this._currCreateEnemyTime + deltaTime;
             if (this._currCreateEnemyTime > this.createEnemyTime) {
                 this.createEnemyPlane();
                 this._currCreateEnemyTime = 0;
             }
         } else if (this._combinationInterval === Constant.Combination.PLANE2) {
+            if (this._currCreateEnemyTime > this.createEnemyTime * 0.9) {
+                const randomCombination = math.randomRangeInt(1, 3);
+                if (randomCombination === Constant.Combination.PLANE2) {
+                    this.createCombition1();
+                } else {
+                    this.createEnemyPlane();
+                }
+
+                this._currCreateEnemyTime = 0;
+            }
+        } else {
+            if (this._currCreateEnemyTime > this.createEnemyTime * 0.8) {
+                const randomCombination = math.randomRangeInt(1, 4);
+                if (randomCombination === Constant.Combination.PLANE2) {
+                    this.createCombition1();
+                } else if (randomCombination === Constant.Combination.PLANE3) {
+                    this.createCombition2();
+                } else {
+                    this.createEnemyPlane();
+                }
+
+                this._currCreateEnemyTime = 0;
+            }
         }
     }
+
+    public addScore() {}
 
     public createPlayerBullet() {
         const bullet = instantiate(this.buttle01);
@@ -73,7 +98,19 @@ export class GameManager extends Component {
         const pos = this.playerPlane.position;
         bullet.setPosition(pos.x, pos.y, pos.z - 7);
         const bulletComp = bullet.getComponent(Bullet);
-        bulletComp.bulletSpeed = this.bulletSpeed;
+        bulletComp.show(this.bulletSpeed, false);
+    }
+
+    public createEnemyBullet(targetPos: Vec3) {
+        const bullet = instantiate(this.buttle01);
+        bullet.setParent(this.bulletRoot);
+        bullet.setPosition(targetPos.x, targetPos.y, targetPos.z + 7);
+        const bulletComp = bullet.getComponent(Bullet);
+        bulletComp.show(1, true);
+
+        const colliderComp = bullet.getComponent(BoxCollider);
+        colliderComp.setGroup(Constant.CollistionType.ENEMY_BULLET);
+        colliderComp.setMask(Constant.CollistionType.SELF_PLANE);
     }
 
     public createEnemyPlane() {
@@ -91,10 +128,38 @@ export class GameManager extends Component {
         const enemy = instantiate(prefab);
         enemy.setParent(this.node);
         const enemyComp = enemy.getComponent(EnemyPlane);
-        enemyComp.show(speed);
+        enemyComp.show(this, speed, true);
 
         const randomPos = math.randomRange(-23, 22);
         enemy.setPosition(randomPos, 0, -150);
+    }
+
+    public createCombition1() {
+        const enemyArray = new Array<Node>(5);
+        for (let i = 0; i < enemyArray.length; i++) {
+            enemyArray[i] = instantiate(this.enemy01);
+            const element = enemyArray[i];
+            element.parent = this.node;
+            element.setPosition(-20 + i * 10, 0, -150);
+            const emenyComp = element.getComponent(EnemyPlane);
+            emenyComp.show(this, this.enemy1Speed, false);
+        }
+    }
+
+    public createCombition2() {
+        const enemyArray = new Array<Node>(7);
+        for (let i = 0; i < enemyArray.length; i++) {
+            enemyArray[i] = instantiate(this.enemy02);
+            const element = enemyArray[i];
+            element.parent = this.node;
+            if (i < 4) {
+                element.setPosition(-20 + i * 7, 0, -150 + i * 5);
+            } else {
+                element.setPosition(-20 + i * 7, 0, -135 - (i - 3) * 5);
+            }
+            const emenyComp = element.getComponent(EnemyPlane);
+            emenyComp.show(this, this.enemy2Speed, false);
+        }
     }
 
     public isShooting(val: boolean) {

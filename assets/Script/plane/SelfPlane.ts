@@ -1,20 +1,25 @@
-import { _decorator, Component, EventTouch, Input, input, Node } from 'cc';
+import { _decorator, BoxCollider, Component, ITriggerEvent, Node } from 'cc';
+import { Constant } from '../frameWork/Constant';
 const { ccclass, property } = _decorator;
 
 @ccclass('SelfPlane')
 export class SelfPlane extends Component {
-    @property
-    public planeSpeed = 1;
+    onEnable() {
+        const collider = this.node.getComponent(BoxCollider);
+        collider.on('onTriggerEnter', this._onTriggerEnter, this);
+    }
 
-    start() {
-        input.on(Input.EventType.TOUCH_MOVE, this._touchMove, this);
+    protected onDisable(): void {
+        const collider = this.node.getComponent(BoxCollider);
+        collider.off('onTriggerEnter', this._onTriggerEnter, this);
     }
 
     update(deltaTime: number) {}
 
-    private _touchMove(touch: EventTouch) {
-        const delta = touch.getDelta();
-        let pos = this.node.position;
-        this.node.setPosition(pos.x + 0.075 * this.planeSpeed * delta.x, pos.y, pos.z - 0.075 * this.planeSpeed * delta.y);
+    private _onTriggerEnter(event: ITriggerEvent) {
+        const collisionGroup = event.otherCollider.getGroup();
+        if (collisionGroup === Constant.CollistionType.ENEMY_PLANE || collisionGroup === Constant.CollistionType.ENEMY_BULLET) {
+            console.log('reduce blood');
+        }
     }
 }
