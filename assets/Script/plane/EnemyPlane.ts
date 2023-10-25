@@ -36,6 +36,7 @@ export class EnemyPlane extends Component {
         if (this._needBullet) {
             this._currCreateBulletTime = this._currCreateBulletTime + deltaTime;
             if (this._currCreateBulletTime > this.craeteBulletTime) {
+                console.log(this.node.position.z)
                 this._gameManager.createEnemyBullet(this.node.position);
                 this._currCreateBulletTime = 0;
             }
@@ -56,7 +57,7 @@ export class EnemyPlane extends Component {
         const collisionGroup = event.otherCollider.getGroup();
         if (collisionGroup === Constant.CollistionType.SELF_PLANE || collisionGroup === Constant.CollistionType.SELF_BULLET) {
             this.node.destroy();
-            this._gameManager.addScore()
+            this._gameManager.addScore();
         }
     }
 }

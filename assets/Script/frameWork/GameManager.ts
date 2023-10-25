@@ -104,7 +104,7 @@ export class GameManager extends Component {
     public createEnemyBullet(targetPos: Vec3) {
         const bullet = instantiate(this.buttle01);
         bullet.setParent(this.bulletRoot);
-        bullet.setPosition(targetPos.x, targetPos.y, targetPos.z + 7);
+        bullet.setPosition(targetPos.x, targetPos.y, targetPos.z);
         const bulletComp = bullet.getComponent(Bullet);
         bulletComp.show(1, true);
 
